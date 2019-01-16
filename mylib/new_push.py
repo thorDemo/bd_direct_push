@@ -27,11 +27,11 @@ def http_push(domain):
             'Connection': 'keep-alive',
             'Host': 'api.share.baidu.com',
         }
-        # proxy = PushTool.get_proxy()
-        # # proxy = b''
-        # if isinstance(proxy, bytes):
-        #     proxy = proxy.decode('utf8')
-        # proxies = {"http": "http://{proxy}".format(proxy=proxy)}
+        proxy = PushTool.get_proxy()
+        # proxy = b''
+        if isinstance(proxy, bytes):
+            proxy = proxy.decode('utf8')
+        proxies = {"http": "http://{proxy}".format(proxy=proxy)}
         payload = {
             'l': referer,
             'r': r
@@ -39,12 +39,12 @@ def http_push(domain):
         code = 404
         url = ''
         temp = 0
-        while temp > 2:
+        while temp < 2:
             try:
                 r = parse.quote_plus(r)
                 url = 'http://api.share.baidu.com/s.gif?r=%s&l=%s' % (r, referer)
-                # res = requests.get(url, params=payload, timeout=10, headers=headers, proxies=proxies)
-                res = requests.get(url, params=payload, timeout=10, headers=headers)
+                res = requests.get(url, params=payload, timeout=10, headers=headers, proxies=proxies)
+                # res = requests.get(url, params=payload, timeout=10, headers=headers)
                 code = res.status_code
                 url = parse.unquote(res.url)
                 if code == 200:
@@ -67,11 +67,11 @@ def http_push(domain):
             percent = success_num / (failure_num + success_num) * 100
             sys.stdout.write(' ' * 100 + '\r')
             sys.stdout.flush()
-            print(referer, code)
-            sys.stdout.write(
-                '%s 成功%s 预计(day/千万):%s M 成功率:%.2f%% 状态码:%s \r'
-                % (datetime.now(), success_num, speed_day, percent, code))
+            print(referer, code, proxy)
             # sys.stdout.write(
-            #     '%s 成功%s 预计(day/千万):%s M 成功率:%.2f%% 状态码:%s 代理:%s\r'
-            #     % (datetime.now(), success_num, speed_day, percent, code, proxies))
+            #     '%s 成功%s 预计(day/千万):%s M 成功率:%.2f%% 状态码:%s \r'
+            #     % (datetime.now(), success_num, speed_day, percent, code))
+            sys.stdout.write(
+                '%s 成功%s 预计(day/千万):%s M 成功率:%.2f%% 状态码:%s\r'
+                % (datetime.now(), success_num, speed_day, percent, code))
             temp += 1
