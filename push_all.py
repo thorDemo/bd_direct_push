@@ -17,11 +17,11 @@ if https == 1:
     [pool.putRequest(req) for req in request]
     pool.wait()
 elif https == 0:
-    from mylib.push_without_proxy import push_url_two
+    from mylib.new_push import http_push
     pool = ThreadPool(thread_num)
     arg = []
     for x in range(0, thread_num):
         arg.append(target)
-    request = makeRequests(push_url_two, arg)
+    request = makeRequests(http_push, arg)
     [pool.putRequest(req) for req in request]
     pool.wait()

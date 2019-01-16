@@ -12,7 +12,7 @@ class PushTool:
 
     @staticmethod
     def get_proxy():
-        return requests.get("http://127.0.0.1:5010/get/").content
+        return requests.get("http://47.93.20.65:5010/get/").content
 
     @staticmethod
     def random_chars(num):
@@ -32,7 +32,7 @@ class PushTool:
     @staticmethod
     def random_time():
         today = datetime.today()
-        yesterday = today + timedelta(days=randint(-5, 0))
+        yesterday = today + timedelta(days=randint(-1, 0))
         return yesterday.strftime("%Y%m%d")
 
     @staticmethod
@@ -75,9 +75,8 @@ class PushTool:
 
         if int(config.get('bd_push', 'type_five')) == 1:
             """ http://abc.com/lsj20181010xxx.html """
-            target_url.append('%s%s%s.html' %
-                              (domain, PushTool.random_time(),
-                               PushTool.random_chars(randint(3, 6))))
+            temp_url = '%s%s%s.html' % (domain, PushTool.random_time(), PushTool.random_chars(randint(3, 6)))
+            target_url.append(temp_url)
 
         return choice(target_url)
 
