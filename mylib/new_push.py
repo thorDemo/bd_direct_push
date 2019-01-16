@@ -32,12 +32,6 @@ def http_push(domain):
         if isinstance(proxy, bytes):
             proxy = proxy.decode('utf8')
         proxies = {"http": "http://{proxy}".format(proxy=proxy)}
-        # conn = requests.Session()
-        # conn.headers = headers
-        # print(headers)
-        # 将cookiesJar赋值给会话
-        # cookies_jar = requests.utils.cookiejar_from_dict(cookie, cookiejar=None, overwrite=True)
-        # conn.cookies = cookies_jar
         payload = {
             'l': referer,
             'r': r
@@ -74,6 +68,7 @@ def http_push(domain):
             sys.stdout.flush()
             print(referer, code)
             sys.stdout.write(
-                '%s 成功%s 预计(day/千万):%s M 成功率:%.2f%% 状态码:%s\r' % (datetime.now(), success_num, speed_day, percent, code))
+                '%s 成功%s 预计(day/千万):%s M 成功率:%.2f%% 状态码:%s 代理:%s\r'
+                % (datetime.now(), success_num, speed_day, percent, code, proxies))
             sys.stdout.flush()
             temp += 1
